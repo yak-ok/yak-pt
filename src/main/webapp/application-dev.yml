@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    name: bpm
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    url: jdbc:mysql://47.104.193.233:3306/blog?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    username: root
+    password: yak@OK#2019
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      max-wait: 45000
+      initial-size: 10
+      min-idle: 5
+      max-active: 20
+      validation-query: select 'x'
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 30000
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      validation-query-timeout: 30000
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.winterchen.model
+  configuration:
+    map-underscore-to-camel-case: true
+
+pagehepler:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArgumnets: true
+  params: count=countSql
+

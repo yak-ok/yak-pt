@@ -1,79 +1,20 @@
 package com.yak;
 
-import com.yak.db.AdDao;
-import org.eclipse.jetty.server.Connector;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.util.resource.Resource;
-import org.eclipse.jetty.webapp.WebAppContext;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-import java.awt.*;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@MapperScan("com.yak.*.mapper")
+public class YakStarter {
 
-public class Starter {
-    private static final int port = 8080;
-    private static final String CONTEXT = "/";
-
-    public static Server createServer(int port) throws MalformedURLException, URISyntaxException {
-        Server server = new Server();
-        server.setStopAtShutdown(true); //JVM退出时关闭Jetty
-
-        ServerConnector connector = new ServerConnector(server);
-        connector.setPort(port);
-        connector.setReuseAddress(false); //重复启动Jetty居然报端口冲突
-        server.setConnectors(new Connector[]{connector});
-
-        WebAppContext webContext = new WebAppContext("src/main/webapp", CONTEXT);
-        webContext.setDescriptor("src/main/webapp/WEB-INF/web.xml");
-        webContext.setResourceBase("src/main/webapp");
-        webContext.setClassLoader(Starter.class.getClassLoader());
-        server.setHandler(webContext);
-        return server;
-    }
-
-    public static void main(String[] args) throws Exception {
-        Server server = Starter.createServer(Starter.port);
-        try {
-            server.stop();
-            server.start();
-
-            openWin();
-
-            server.join();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void openWin() throws Exception {
-        String url = "http://localhost:8080";
-        Desktop desktop = Desktop.getDesktop();
-        if (Desktop.isDesktopSupported() && desktop.isSupported(Desktop.Action.BROWSE)) {
-            URI uri = new URI(url);
-            desktop.browse(uri);
-        }
+    public static void main(String[] args) {
+        SpringApplication.run(YakStarter.class, args);
+        System.out.println("(♥◠‿◠)ﾉﾞ  Czl启动成功   ლ(´ڡ`ლ)ﾞ  \n");
     }
 
     public static void main2(String[] args) throws Exception {
-        Server server = new Server(8080);
-
-
-        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        // Or ServletContextHandler.NO_SESSIONS
-        context.setContextPath("/");
-        server.setHandler(context);
-        WebAppContext webContext = new WebAppContext("webapp", "/");
-        webContext.setBaseResource(Resource.newResource(new URL(Starter.class.getResource("/webapp/WEB-INF"), ".")));
-        webContext.setClassLoader(Starter.class.getClassLoader());
-
-        server.start();
-        server.join();
-
-        AdDao.readyAd();
 
         /*
         WebDriver chromeDriver = new ChromeDriver();    //Chrome浏览器
