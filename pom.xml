@@ -19,7 +19,7 @@
     <properties>
         <java.version>11</java.version>
         <selenium.version>3.141.59</selenium.version>
-        <quartz.version>2.3.1</quartz.version>
+        <quartz.version>2.3.2</quartz.version>
         <httpclient.version>4.5.9</httpclient.version>
         <slf4j.version>1.7.28</slf4j.version>
         <sqlite.version>3.28.0</sqlite.version>
